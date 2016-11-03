@@ -43,7 +43,7 @@ public class LoginActivity extends Activity {
 
 
 
-    ArrayList<HashMap<String, String>> arraylist;
+    JSONArray arraylist = new JSONArray();
     ProgressDialog mProgressDialog;
 
     static String DATE = "date";
@@ -173,16 +173,16 @@ public class LoginActivity extends Activity {
                 String postParams = http.getFormParams(page, usr , password);
                 http.sendPost(url, postParams);
                 result = http.GetPageContent(gmail);
-                arraylist = new ArrayList<HashMap<String, String>>();
+                arraylist = new JSONArray(); //<String,HashMap<String, String>>();
                 Document doc = Jsoup.parse(result);
 
                     Element table = doc.getElementById("ctl00_ctl00_ContentPlaceHolder_RightContentPlaceHolder_dgDane");
                    if(table!=null){
                        dateMap = new JSONArray();
-
+                        Integer index = 0;
                        for (Element row : table.select("tr.gridDane")) {
 
-                           HashMap<String, String> map = new HashMap<String, String>();
+                           JSONObject map = new JSONObject();
                            Elements tds = row.select("td");
 
                            map.put("from", tds.get(1).text());
@@ -198,15 +198,19 @@ public class LoginActivity extends Activity {
                                JSONObject obj = new JSONObject();
                                obj.put("date", tds.get(0).text());
                                dateMap.put(obj);
+                               JSONObject arrayListObject = new JSONObject();
+                               arrayListObject.put(dateMap.getJSONObject(index).getString("date").toString(),map);
+                               arraylist.put(arrayListObject);
                            } catch (JSONException e) {
                                e.printStackTrace();
                            }
-                           arraylist.add(map);
+                           index++;
                        }
                    }else{
-                       HashMap<String, String> errorMap = new HashMap<String, String>();
+                       //HashMap<String, String> errorMap = new HashMap<String, String>()
+                       JSONObject errorMap = new JSONObject();
                        errorMap.put("ERROR", "ERROR");
-                       arraylist.add(errorMap);
+                       arraylist.put(errorMap);
                    }
 
 

@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ViewPager mViewPager;
     private ViewPagerAdapter mAdapter;
     ListViewAdapter adapter;
+    private String timetableData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +81,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
@@ -94,7 +94,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         mTabHost = (MaterialTabHost) findViewById(R.id.materialTabHost);
         mViewPager = (ViewPager) findViewById(R.id.viewPager);
-
         mAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         mViewPager.setAdapter(mAdapter);
         mViewPager.addOnPageChangeListener (new ViewPager.SimpleOnPageChangeListener() {
@@ -102,13 +101,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public void onPageSelected(int position) {
                 mTabHost.setSelectedNavigationItem(position);
 
+                //setADAPTER
             }
         });
 
-
         Bundle extras = getIntent().getExtras();
         String result = extras.getString("result");
-        if(Objects.equals(result, "[{ERROR=ERROR}]")){
+        if(Objects.equals(result, "[{\"ERROR\":\"ERROR\"}]")){
             new AlertDialog.Builder(this)
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .setTitle("ERROR")
@@ -119,18 +118,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         public void onClick(DialogInterface dialog, int which) {
                             finish();
                         }
-
                     })
                     .show();
         }else{
             String dateMap = extras.getString("dateMap");
             try {
-
                 JSONArray jsonArray = new JSONArray(dateMap);
-
                 for(int i = 0; i<jsonArray.length() ; i++){
                     JSONObject json = jsonArray.getJSONObject(i);
-
                     mTabHost.addTab(mTabHost.newTab().setText(json.getString("date")).setTabListener(MainActivity.this));
                     mTabHost.notifyDataSetChanged();
                     mAdapter.setCount(mAdapter.getCount() + 1);
@@ -141,6 +136,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
 
             Log.i("tetet", result);
+            timetableData = result;
 
         }
 
@@ -177,12 +173,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onTabSelected(MaterialTab materialTab) {
         mViewPager.setCurrentItem(materialTab.getPosition());
-        Toast.makeText(MainActivity.this, "create view"+mViewPager.getCurrentItem(), Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onTabReselected(MaterialTab materialTab) {
-
+        mViewPager.setCurrentItem(materialTab.getPosition());
     }
 
     @Override
@@ -194,13 +189,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         @Override
         public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
             return inflater.inflate(R.layout.item_drawer, container, false);
-            //tutaj dorzucać poszczególne dane
         }
     }
 
     private class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
-        int count = 2;
+        int count = 1;
         FragmentManager fragmentManager;
 
         public ViewPagerAdapter(FragmentManager fm) {
