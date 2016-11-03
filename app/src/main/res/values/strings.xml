@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">Wirtualna uczelnia</string>
+
+    <string name="fromLabel">"From : "</string>
+    <string name="toLabel">"To : "</string>
+    <string name="subjectLabel">"Subject : "</string>
+    <string name="lecturerLabel">"Lecturer : "</string>
+    <string name="roomLabel">"Room : "</string>
+    <string name="addressLabel">"Address : "</string>
+    <string name="typeLabel">"Type : "</string>
+    <string name="passFormLabel">"Pass : "</string>
+    <string name="title_activity_login">LoginActivity</string>
+
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+
+
+</resources>

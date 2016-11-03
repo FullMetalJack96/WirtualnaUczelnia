@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <ImageView
+        android:id="@+id/zoologo"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:src="@mipmap/login_logo"
+        android:layout_marginTop="30dp"/>
+
+    <TextView
+        android:id="@+id/zoo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="30dp"
+        android:text="Wirtualna Uczelnia"
+        android:textColor="#2C3646"
+        android:gravity="center"
+        android:layout_below="@+id/zoologo"
+        android:textStyle="bold"
+        android:layout_marginTop="10dp"
+        />
+
+    <LinearLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="50dp"
+        android:orientation="vertical"
+        android:layout_below="@+id/zoo">
+
+
+        <custom_font.MyEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="INDEX NUMBER"
+            android:inputType="text"
+            android:textColorHint="#a9b0c3"
+            android:textSize="13dp"
+            android:background="#00000000"
+            android:paddingLeft="8dp"
+            android:id="@+id/username"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="#a9b0c3"
+            android:layout_marginTop="10dp"
+
+            >
+        </LinearLayout>
+
+        <custom_font.MyEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="PASSWORD"
+            android:inputType="textPassword"
+            android:textColorHint="#a9b0c3"
+            android:layout_marginTop="50dp"
+            android:textSize="13dp"
+            android:background="#00000000"
+            android:paddingLeft="8dp"
+            android:id="@+id/passwd" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="#a9b0c3"
+            android:layout_marginTop="10dp"
+            >
+        </LinearLayout>
+
+        <custom_font.MyTextView
+            android:id="@+id/login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Login"
+            android:textStyle="bold"
+            android:background="@drawable/round"
+            android:textColor="#CBD1DC"
+            android:gravity="center"
+            android:padding="14dp"
+            android:layout_marginTop="50dp"
+            android:clickable="true" />
+
+        <CheckBox
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Remember me"
+            android:id="@+id/rememberMe"
+            android:layout_below="@+id/main"
+            android:layout_marginTop="39dp"
+            android:layout_alignEnd="@+id/main"
+            android:layout_alignStart="@+id/main" />
+
+    </LinearLayout>
+
+
+</RelativeLayout>

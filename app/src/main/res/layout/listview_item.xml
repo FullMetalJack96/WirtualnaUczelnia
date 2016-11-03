@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <TextView
+        android:id="@+id/dateLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Date: " />
+
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/dateLabel" />
+
+    <TextView
+        android:id="@+id/fromLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/dateLabel"
+        android:text="@string/fromLabel" />
+
+    <TextView
+        android:id="@+id/from"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/dateLabel"
+        android:layout_toRightOf="@+id/fromLabel" />
+    <TextView
+        android:id="@+id/toLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/fromLabel"
+        android:text="@string/toLabel" />
+
+    <TextView
+        android:id="@+id/to"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/fromLabel"
+        android:layout_toRightOf="@+id/toLabel" />
+
+    <TextView
+        android:id="@+id/subjectLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toLabel"
+        android:text="@string/subjectLabel" />
+
+    <TextView
+        android:id="@+id/subject"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/to"
+        android:layout_toRightOf="@+id/subjectLabel" />
+
+    <TextView
+    android:id="@+id/lecturerLabel"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/subjectLabel"
+    android:text="@string/lecturerLabel" />
+
+    <TextView
+        android:id="@+id/lecturer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/subject"
+        android:layout_toRightOf="@+id/lecturerLabel" />
+
+    <TextView
+        android:id="@+id/roomLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lecturerLabel"
+        android:text="@string/roomLabel" />
+
+    <TextView
+        android:id="@+id/room"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lecturer"
+        android:layout_toRightOf="@+id/roomLabel" />
+
+    <TextView
+    android:id="@+id/addressLabel"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/roomLabel"
+    android:text="@string/addressLabel" />
+
+    <TextView
+        android:id="@+id/address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/room"
+        android:layout_toRightOf="@+id/addressLabel" />
+
+    <TextView
+        android:id="@+id/typeLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/addressLabel"
+        android:text="@string/typeLabel" />
+
+    <TextView
+        android:id="@+id/type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/addressLabel"
+        android:layout_toRightOf="@+id/typeLabel" />
+
+    <TextView
+        android:id="@+id/passFormLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/typeLabel"
+        android:text="@string/passFormLabel" />
+
+    <TextView
+        android:id="@+id/passForm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/typeLabel"
+        android:layout_toRightOf="@+id/passFormLabel" />
+
+
+</RelativeLayout>
