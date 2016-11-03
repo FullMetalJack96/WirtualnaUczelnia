@@ -20,6 +20,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.File;
@@ -35,12 +36,13 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
 import javax.net.ssl.HttpsURLConnection;
+
 import custom_font.MyEditText;
 import custom_font.MyTextView;
 
 public class LoginActivity extends Activity {
-
 
 
     JSONArray arraylist = new JSONArray();
@@ -73,13 +75,13 @@ public class LoginActivity extends Activity {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_login);
 
-        login = (MyTextView)findViewById(R.id.login);
-        usernameTextBox = (MyEditText)findViewById(R.id.username);
-        passwdTextBox = (MyEditText)findViewById(R.id.passwd);
-        rememberMe = (CheckBox)findViewById(R.id.rememberMe);
+        login = (MyTextView) findViewById(R.id.login);
+        usernameTextBox = (MyEditText) findViewById(R.id.username);
+        passwdTextBox = (MyEditText) findViewById(R.id.passwd);
+        rememberMe = (CheckBox) findViewById(R.id.rememberMe);
 
         File rememberedUser = new File(getCacheDir(), "XOR_user_cache");
-        if(rememberedUser.exists()){
+        if (rememberedUser.exists()) {
             BufferedReader input;
             File file;
             try {
@@ -109,21 +111,20 @@ public class LoginActivity extends Activity {
         }
 
         Typeface custom_fonts = Typeface.createFromAsset(getAssets(), "fonts/CaviarDreams.ttf");
-        title = (TextView)findViewById(R.id.zoo);
+        title = (TextView) findViewById(R.id.zoo);
         title.setTypeface(custom_fonts);
-
 
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if(rememberMe.isChecked()){
+                if (rememberMe.isChecked()) {
                     JSONObject userDetails = new JSONObject();
                     try {
 
-                        userDetails.put("usrName",  usernameTextBox.getText().toString());
-                        userDetails.put("password",  xor.encryptDecrypt(passwdTextBox.getText().toString()));
+                        userDetails.put("usrName", usernameTextBox.getText().toString());
+                        userDetails.put("password", xor.encryptDecrypt(passwdTextBox.getText().toString()));
 
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -142,10 +143,10 @@ public class LoginActivity extends Activity {
                         e.printStackTrace();
                     }
                 }
-                    HttpUrlConnection http = new HttpUrlConnection();
-                    http.execute("user_login");
-                    usr = usernameTextBox.getText().toString();
-                    password = passwdTextBox.getText().toString();
+                HttpUrlConnection http = new HttpUrlConnection();
+                http.execute("user_login");
+                usr = usernameTextBox.getText().toString();
+                password = passwdTextBox.getText().toString();
 
             }
         });
@@ -170,49 +171,47 @@ public class LoginActivity extends Activity {
 
                 CookieHandler.setDefault(new CookieManager());
                 String page = http.GetPageContent(url);
-                String postParams = http.getFormParams(page, usr , password);
+                String postParams = http.getFormParams(page, usr, password);
                 http.sendPost(url, postParams);
                 result = http.GetPageContent(gmail);
-                arraylist = new JSONArray(); //<String,HashMap<String, String>>();
+                arraylist = new JSONArray();
                 Document doc = Jsoup.parse(result);
 
-                    Element table = doc.getElementById("ctl00_ctl00_ContentPlaceHolder_RightContentPlaceHolder_dgDane");
-                   if(table!=null){
-                       dateMap = new JSONArray();
-                        Integer index = 0;
-                       for (Element row : table.select("tr.gridDane")) {
+                Element table = doc.getElementById("ctl00_ctl00_ContentPlaceHolder_RightContentPlaceHolder_dgDane");
+                if (table != null) {
+                    dateMap = new JSONArray();
+                    Integer index = 0;
+                    for (Element row : table.select("tr.gridDane")) {
 
-                           JSONObject map = new JSONObject();
-                           Elements tds = row.select("td");
+                        JSONObject map = new JSONObject();
+                        Elements tds = row.select("td");
 
-                           map.put("from", tds.get(1).text());
-                           map.put("to", tds.get(2).text());
-                           map.put("subject", tds.get(3).text());
-                           map.put("lecturer", tds.get(4).text());
-                           map.put("room", tds.get(5).text());
-                           map.put("address", tds.get(8).text());
-                           map.put("type", tds.get(9).text());
-                           map.put("passForm", tds.get(10).text());
+                        map.put("from", tds.get(1).text());
+                        map.put("to", tds.get(2).text());
+                        map.put("subject", tds.get(3).text());
+                        map.put("lecturer", tds.get(4).text());
+                        map.put("room", tds.get(5).text());
+                        map.put("address", tds.get(8).text());
+                        map.put("type", tds.get(9).text());
+                        map.put("passForm", tds.get(10).text());
 
-                           try {
-                               JSONObject obj = new JSONObject();
-                               obj.put("date", tds.get(0).text());
-                               dateMap.put(obj);
-                               JSONObject arrayListObject = new JSONObject();
-                               arrayListObject.put(dateMap.getJSONObject(index).getString("date").toString(),map);
-                               arraylist.put(arrayListObject);
-                           } catch (JSONException e) {
-                               e.printStackTrace();
-                           }
-                           index++;
-                       }
-                   }else{
-                       //HashMap<String, String> errorMap = new HashMap<String, String>()
-                       JSONObject errorMap = new JSONObject();
-                       errorMap.put("ERROR", "ERROR");
-                       arraylist.put(errorMap);
-                   }
-
+                        try {
+                            JSONObject obj = new JSONObject();
+                            obj.put("date", tds.get(0).text());
+                            dateMap.put(obj);
+                            JSONObject arrayListObject = new JSONObject();
+                            arrayListObject.put(dateMap.getJSONObject(index).getString("date").toString(), map);
+                            arraylist.put(arrayListObject);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        index++;
+                    }
+                } else {
+                    JSONObject errorMap = new JSONObject();
+                    errorMap.put("ERROR", "ERROR");
+                    arraylist.put(errorMap);
+                }
 
 
             } catch (Exception e) {
@@ -347,15 +346,15 @@ public class LoginActivity extends Activity {
                 paramList.add(key + "=" + URLEncoder.encode(value, "UTF-8"));
             }
 
-                StringBuilder result = new StringBuilder();
-                for (String param : paramList) {
-                    if (result.length() == 0) {
-                        result.append(param);
-                    } else {
-                        result.append("&" + param);
-                    }
+            StringBuilder result = new StringBuilder();
+            for (String param : paramList) {
+                if (result.length() == 0) {
+                    result.append(param);
+                } else {
+                    result.append("&" + param);
                 }
-                return result.toString();
+            }
+            return result.toString();
         }
 
         public List<String> getCookies() {

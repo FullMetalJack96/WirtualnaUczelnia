@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     Typeface font_bold;
-    TextView home,title,logout;
+    TextView home, title, logout;
     private Toolbar mToolbar;
     private MaterialTabHost mTabHost;
     private ViewPager mViewPager;
@@ -56,15 +56,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        font_bold =  Typeface.createFromAsset(MainActivity.this.getAssets(), "fonts/CaviarDreams.ttf");
+        font_bold = Typeface.createFromAsset(MainActivity.this.getAssets(), "fonts/CaviarDreams.ttf");
 
-        title = (TextView)findViewById(R.id.title);
+        title = (TextView) findViewById(R.id.title);
         title.setTypeface(font_bold);
 
-        home = (TextView)findViewById(R.id.home);
+        home = (TextView) findViewById(R.id.home);
         home.setTypeface(font_bold);
 
-        logout = (TextView)findViewById(R.id.logout);
+        logout = (TextView) findViewById(R.id.logout);
         logout.setTypeface(font_bold);
 
         logout.setOnClickListener(new View.OnClickListener() {
@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public void onClick(View v) {
                 Toast.makeText(MainActivity.this, "Logout", Toast.LENGTH_SHORT).show();
                 File rememberedUser = new File(getCacheDir(), "XOR_user_cache");
-                if(rememberedUser.exists()){
+                if (rememberedUser.exists()) {
                     BufferedReader input;
                     File file = new File(getCacheDir(), "XOR_user_cache");
                     boolean deleted = file.delete();
@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mViewPager = (ViewPager) findViewById(R.id.viewPager);
         mAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         mViewPager.setAdapter(mAdapter);
-        mViewPager.addOnPageChangeListener (new ViewPager.SimpleOnPageChangeListener() {
+        mViewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
                 mTabHost.setSelectedNavigationItem(position);
@@ -107,24 +107,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         Bundle extras = getIntent().getExtras();
         String result = extras.getString("result");
-        if(Objects.equals(result, "[{\"ERROR\":\"ERROR\"}]")){
+        if (Objects.equals(result, "[{\"ERROR\":\"ERROR\"}]")) {
             new AlertDialog.Builder(this)
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .setTitle("ERROR")
                     .setMessage("No data has been detected! Check your password or login. [If this dialog shows up every time you login it is possible that you don't have any timetable set in Wirtualny Dziekanat system]")
-                    .setPositiveButton("OK", new DialogInterface.OnClickListener()
-                    {
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             finish();
                         }
                     })
                     .show();
-        }else{
+        } else {
             String dateMap = extras.getString("dateMap");
             try {
                 JSONArray jsonArray = new JSONArray(dateMap);
-                for(int i = 0; i<jsonArray.length() ; i++){
+                for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject json = jsonArray.getJSONObject(i);
                     mTabHost.addTab(mTabHost.newTab().setText(json.getString("date")).setTabListener(MainActivity.this));
                     mTabHost.notifyDataSetChanged();
@@ -153,7 +152,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -162,12 +160,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-            if (drawer.isDrawerOpen(GravityCompat.START)) {
-                drawer.closeDrawer(GravityCompat.START);
-            } else {
-                super.onBackPressed();
-            }
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
     }
 
     @Override

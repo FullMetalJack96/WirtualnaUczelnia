@@ -1,4 +1,5 @@
 package com.booua.wirtualnauczelnia;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -12,7 +13,6 @@ import android.widget.TextView;
 
 public class ListViewAdapter extends BaseAdapter {
 
-    // Declare Variables
     Context context;
     LayoutInflater inflater;
     ArrayList<HashMap<String, String>> data;
@@ -40,7 +40,7 @@ public class ListViewAdapter extends BaseAdapter {
     }
 
     public View getView(final int position, View convertView, ViewGroup parent) {
-        // Declare Variables
+
         TextView date;
         TextView from;
         TextView to;
@@ -55,10 +55,8 @@ public class ListViewAdapter extends BaseAdapter {
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         View itemView = inflater.inflate(R.layout.listview_item, parent, false);
-        // Get the position
-        resultp = data.get(position);
 
-        // Locate the TextViews in listview_item.xml
+        resultp = data.get(position);
 
         date = (TextView) itemView.findViewById(R.id.date);
         from = (TextView) itemView.findViewById(R.id.from);
@@ -71,7 +69,6 @@ public class ListViewAdapter extends BaseAdapter {
         passForm = (TextView) itemView.findViewById(R.id.passForm);
 
 
-        // Capture position and set results to the TextViews
         date.setText(resultp.get(LoginActivity.DATE));
         from.setText(resultp.get(LoginActivity.FROM));
         to.setText(resultp.get(LoginActivity.TO));
@@ -81,29 +78,6 @@ public class ListViewAdapter extends BaseAdapter {
         address.setText(resultp.get(LoginActivity.ADDRESS));
         type.setText(resultp.get(LoginActivity.TYPE));
         passForm.setText(resultp.get(LoginActivity.PASSFORM));
-        // Capture position and set results to the ImageView
-        // Passes flag images URL into ImageLoader.class
-        // Capture ListView item click
-        itemView.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View arg0) {
-//                // Get the position
-//                resultp = data.get(position);
-//                Intent intent = new Intent(context, SingleItemView.class);
-//                // Pass all data rank
-//                intent.putExtra("rank", resultp.get(MainActivity.RANK));
-//                // Pass all data country
-//                intent.putExtra("country", resultp.get(MainActivity.COUNTRY));
-//                // Pass all data population
-//                intent.putExtra("population",resultp.get(MainActivity.POPULATION));
-//                // Pass all data flag
-//                intent.putExtra("flag", resultp.get(MainActivity.FLAG));
-//                // Start SingleItemView Class
-//                context.startActivity(intent);
-
-            }
-        });
         return itemView;
     }
 }
