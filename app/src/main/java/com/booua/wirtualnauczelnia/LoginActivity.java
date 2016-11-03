@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.CheckBox;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -54,6 +55,7 @@ public class LoginActivity extends Activity {
     static String ADDRESS = "address";
     static String TYPE = "type";
     static String PASSFORM = "passForm";
+    public boolean wrongPasswordError = false;
 
 
     TextView title;
@@ -154,8 +156,8 @@ public class LoginActivity extends Activity {
         private List<String> cookies;
         private HttpsURLConnection conn;
         private final String USER_AGENT = "Mozilla/5.0";
-        public String result = "asd";
-        public JSONArray dateMap;
+        public String result;
+        public JSONArray dateMap = new JSONArray();
 
         @Override
         protected String doInBackground(String... params) {
@@ -173,31 +175,41 @@ public class LoginActivity extends Activity {
                 result = http.GetPageContent(gmail);
                 arraylist = new ArrayList<HashMap<String, String>>();
                 Document doc = Jsoup.parse(result);
-                Element table = doc.getElementById("ctl00_ctl00_ContentPlaceHolder_RightContentPlaceHolder_dgDane");
-                dateMap = new JSONArray();
 
-                    for (Element row : table.select("tr.gridDane")) {
+                    Element table = doc.getElementById("ctl00_ctl00_ContentPlaceHolder_RightContentPlaceHolder_dgDane");
+                   if(table!=null){
+                       dateMap = new JSONArray();
 
-                        HashMap<String, String> map = new HashMap<String, String>();
-                        Elements tds = row.select("td");
-                        try {
-                            JSONObject obj = new JSONObject();
-                            obj.put("date", tds.get(0).text());
-                            dateMap.put(obj);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        map.put("from", tds.get(1).text());
-                        map.put("to", tds.get(2).text());
-                        map.put("subject", tds.get(3).text());
-                        map.put("lecturer", tds.get(4).text());
-                        map.put("room", tds.get(5).text());
-                        map.put("address", tds.get(8).text());
-                        map.put("type", tds.get(9).text());
-                        map.put("passForm", tds.get(10).text());
+                       for (Element row : table.select("tr.gridDane")) {
 
-                        arraylist.add(map);
-                    }
+                           HashMap<String, String> map = new HashMap<String, String>();
+                           Elements tds = row.select("td");
+
+                           map.put("from", tds.get(1).text());
+                           map.put("to", tds.get(2).text());
+                           map.put("subject", tds.get(3).text());
+                           map.put("lecturer", tds.get(4).text());
+                           map.put("room", tds.get(5).text());
+                           map.put("address", tds.get(8).text());
+                           map.put("type", tds.get(9).text());
+                           map.put("passForm", tds.get(10).text());
+
+                           try {
+                               JSONObject obj = new JSONObject();
+                               obj.put("date", tds.get(0).text());
+                               dateMap.put(obj);
+                           } catch (JSONException e) {
+                               e.printStackTrace();
+                           }
+                           arraylist.add(map);
+                       }
+                   }else{
+                       HashMap<String, String> errorMap = new HashMap<String, String>();
+                       errorMap.put("ERROR", "ERROR");
+                       arraylist.add(errorMap);
+                   }
+
+
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -294,6 +306,7 @@ public class LoginActivity extends Activity {
             System.out.println("\nSending 'GET' request to URL : " + url);
             System.out.println("Response Code : " + responseCode);
 
+
             BufferedReader in =
                     new BufferedReader(new InputStreamReader(conn.getInputStream()));
             String inputLine;
@@ -316,7 +329,6 @@ public class LoginActivity extends Activity {
             System.out.println("Extracting form's data...");
 
             Document doc = Jsoup.parse(html);
-
             Element loginform = doc.getElementById("aspnetForm");
             Elements inputElements = loginform.getElementsByTag("input");
             List<String> paramList = new ArrayList<String>();
@@ -331,15 +343,15 @@ public class LoginActivity extends Activity {
                 paramList.add(key + "=" + URLEncoder.encode(value, "UTF-8"));
             }
 
-            StringBuilder result = new StringBuilder();
-            for (String param : paramList) {
-                if (result.length() == 0) {
-                    result.append(param);
-                } else {
-                    result.append("&" + param);
+                StringBuilder result = new StringBuilder();
+                for (String param : paramList) {
+                    if (result.length() == 0) {
+                        result.append(param);
+                    } else {
+                        result.append("&" + param);
+                    }
                 }
-            }
-            return result.toString();
+                return result.toString();
         }
 
         public List<String> getCookies() {

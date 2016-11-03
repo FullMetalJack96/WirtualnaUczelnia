@@ -1,6 +1,7 @@
 package com.booua.wirtualnauczelnia;
 
 
+import android.content.DialogInterface;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,6 +13,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.support.v7.widget.Toolbar;
@@ -27,6 +29,7 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.util.Objects;
 
 import it.neokree.materialtabs.MaterialTab;
 import it.neokree.materialtabs.MaterialTabHost;
@@ -105,24 +108,41 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         Bundle extras = getIntent().getExtras();
         String result = extras.getString("result");
-        String dateMap = extras.getString("dateMap");
-        try {
+        if(Objects.equals(result, "[{ERROR=ERROR}]")){
+            new AlertDialog.Builder(this)
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setTitle("ERROR")
+                    .setMessage("No data has been detected! Check your password or login. [If this dialog shows up every time you login it is possible that you don't have any timetable set in Wirtualny Dziekanat system]")
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener()
+                    {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            finish();
+                        }
 
-            JSONArray jsonArray = new JSONArray(dateMap);
+                    })
+                    .show();
+        }else{
+            String dateMap = extras.getString("dateMap");
+            try {
 
-            for(int i = 0; i<jsonArray.length() ; i++){
-                JSONObject json = jsonArray.getJSONObject(i);
+                JSONArray jsonArray = new JSONArray(dateMap);
 
-                mTabHost.addTab(mTabHost.newTab().setText(json.getString("date")).setTabListener(MainActivity.this));
-                mTabHost.notifyDataSetChanged();
-                mAdapter.setCount(mAdapter.getCount() + 1);
+                for(int i = 0; i<jsonArray.length() ; i++){
+                    JSONObject json = jsonArray.getJSONObject(i);
+
+                    mTabHost.addTab(mTabHost.newTab().setText(json.getString("date")).setTabListener(MainActivity.this));
+                    mTabHost.notifyDataSetChanged();
+                    mAdapter.setCount(mAdapter.getCount() + 1);
+                }
+
+            } catch (Throwable t) {
+                Log.e("My App", "Could not parse malformed JSON: \"" + dateMap + "\"");
             }
 
-        } catch (Throwable t) {
-            Log.e("My App", "Could not parse malformed JSON: \"" + dateMap + "\"");
-        }
+            Log.i("tetet", result);
 
-        Log.i("tetet", "lol"+result.toString());
+        }
 
 
     }
