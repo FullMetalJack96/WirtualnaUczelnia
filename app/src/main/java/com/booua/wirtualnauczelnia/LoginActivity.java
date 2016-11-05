@@ -48,7 +48,6 @@ public class LoginActivity extends Activity {
     JSONArray arraylist = new JSONArray();
     ProgressDialog mProgressDialog;
 
-    static String DATE = "date";
     static String FROM = "from";
     static String TO = "to";
     static String SUBJECT = "subject";
@@ -56,8 +55,6 @@ public class LoginActivity extends Activity {
     static String ROOM = "room";
     static String ADDRESS = "address";
     static String TYPE = "type";
-    static String PASSFORM = "passForm";
-    public boolean wrongPasswordError = false;
 
 
     TextView title;
@@ -199,9 +196,8 @@ public class LoginActivity extends Activity {
                             JSONObject obj = new JSONObject();
                             obj.put("date", tds.get(0).text());
                             dateMap.put(obj);
-                            JSONObject arrayListObject = new JSONObject();
-                            arrayListObject.put(dateMap.getJSONObject(index).getString("date").toString(), map);
-                            arraylist.put(arrayListObject);
+                            arraylist.put(map);
+                            //JSON TO DOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

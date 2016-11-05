@@ -21,6 +21,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +30,8 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Objects;
 
 import it.neokree.materialtabs.MaterialTab;
@@ -45,8 +48,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private MaterialTabHost mTabHost;
     private ViewPager mViewPager;
     private ViewPagerAdapter mAdapter;
-    ListViewAdapter adapter;
     private String timetableData;
+    ListView listview;
+    ListViewAdapter adapter;
+    ArrayList<HashMap<String, String>> arraylist;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,8 +105,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onPageSelected(int position) {
                 mTabHost.setSelectedNavigationItem(position);
+                try {
+                    JSONArray resultArray = new JSONArray(timetableData);
+                    Toast.makeText(MainActivity.this, "ASD"+resultArray.getJSONObject(mTabHost.getCurrentTab().getPosition()), Toast.LENGTH_SHORT).show();
+                    listview = (ListView) findViewById(R.id.listView1);
+                    adapter = new ListViewAdapter(MainActivity.this, resultArray.getJSONObject(mTabHost.getCurrentTab().getPosition()));
+                    listview.setAdapter(adapter);
 
-                //setADAPTER
+                } catch (Throwable t) {
+                    Log.e("My App", "Could not parse malformed JSON: \"" + timetableData.toString() + "\"");
+                }
+
             }
         });
 
